@@ -1,0 +1,239 @@
+<mxfile host="app.diagrams.net" modified="2026-02-02T00:00:00.000Z" agent="GPT" version="22.1.0" type="device">
+  <diagram id="onebox-capabilities" name="00 - One-Box Per Capability">
+    <mxGraphModel dx="1600" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="ttl" value="One-Box Per Capability (Exec Overview) — BYOC Multi-Cloud + On-Prem"
+          style="text;html=1;fontSize=22;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1500" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- ROW 1: Demand + Edge -->
+        <mxCell id="cap_clients" value="Clients / Channels&#10;• Mobile / Web&#10;• Partner APIs&#10;• Bank Integrations"
+          style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="70" width="300" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_edge" value="Global Edge + Routing&#10;• DNS / GSLB&#10;• WAF / DDoS&#10;• Geo/Latency Policy"
+          style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="340" y="70" width="340" height="110" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e_clients_edge" value="TLS"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_clients" target="cap_edge">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ROW 2: BYOC Runtime + Service Mesh -->
+        <mxCell id="cap_byoc" value="BYOC Runtime (Per Tenant)&#10;• Dedicated account/subscription/project&#10;• Dedicated Kubernetes cluster(s): EKS/AKS/GKE/On-Prem&#10;• No shared runtime between tenants"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="700" y="70" width="880" height="210" as="geometry"/>
+        </mxCell>
+
+        <!-- Icons inside BYOC box: AWS/Azure/GCP/K8s -->
+        <mxCell id="aws_icon" value=""
+          style="outlineConnect=0;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;"
+          vertex="1" parent="1">
+          <mxGeometry x="720" y="95" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="az_icon" value=""
+          style="aspect=fixed;html=1;image;image=img/lib/azure2/general/All_Resources.svg;"
+          vertex="1" parent="1">
+          <mxGeometry x="775" y="95" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcp_icon" value=""
+          style="dashed=0;connectable=0;html=1;fillColor=#5184F3;strokeColor=none;shape=mxgraph.gcp2.hexIcon;prIcon=google_kubernetes_engine;part=1;"
+          vertex="1" parent="1">
+          <mxGeometry x="830" y="101" width="44" height="39" as="geometry"/>
+        </mxCell>
+        <mxCell id="k8s_icon" value=""
+          style="html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=node"
+          vertex="1" parent="1">
+          <mxGeometry x="885" y="97" width="44" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_mesh" value="Service Mesh + Traffic Management (Istio)&#10;• IngressGateway (North/South)&#10;• mTLS Strict (East/West)&#10;• Blue/Green + Canary (VirtualService/DR)&#10;• Policy: AuthZ + Rate limits"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="340" height="150" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e_edge_byoc" value="HTTP/gRPC"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_edge" target="cap_byoc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e_edge_mesh" value="Ingress"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_edge" target="cap_mesh">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e_mesh_byoc" value="mTLS + Routing"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_mesh" target="cap_byoc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ROW 3: Core Data Systems -->
+        <mxCell id="cap_apps" value="Application Workloads (Tenant Scoped)&#10;• Stateless services&#10;• Idempotent producers&#10;• Release strategies: Blue/Green + Canary"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="210" width="300" height="150" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_db" value="Distributed SQL (CockroachDB)&#10;• Dedicated per tenant&#10;• Raft + rebalancing&#10;• Rolling upgrades + finalize&#10;• Geo-partitioning (optional)"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="380" width="500" height="160" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_stream" value="Streaming (Redpanda)&#10;• Dedicated per tenant&#10;• RF=3/5, Raft quorum&#10;• Maintenance mode upgrades&#10;• Self-healing balancing"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="540" y="380" width="500" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- Kubernetes + GCP icons for DB/Stream (library icons) -->
+        <mxCell id="db_k8s" value="" style="html=1;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=statefulset" vertex="1" parent="1">
+          <mxGeometry x="480" y="390" width="44" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="stream_k8s" value="" style="html=1;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=statefulset" vertex="1" parent="1">
+          <mxGeometry x="1000" y="390" width="44" height="42" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges apps -> db/stream -->
+        <mxCell id="e_apps_db" value="SQL"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_apps" target="cap_db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e_apps_stream" value="Events"
+          style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;"
+          edge="1" parent="1" source="cap_apps" target="cap_stream">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Row 4: Governance + Ops -->
+        <mxCell id="cap_security" value="Security + Governance&#10;• Tenant-scoped IAM&#10;• NetworkPolicy + AuthZ&#10;• KMS/HSM keys per tenant&#10;• Audit logging + approvals"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="1060" y="380" width="520" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- Azure security icon -->
+        <mxCell id="az_key" value=""
+          style="aspect=fixed;html=1;image;image=img/lib/azure2/security/Key_Vaults.svg;"
+          vertex="1" parent="1">
+          <mxGeometry x="1530" y="390" width="44" height="44" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_gitops" value="GitOps + Drift Management&#10;• ArgoCD/Flux reconcile&#10;• Golden baselines&#10;• Auto-remediation"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="570" width="420" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_observability" value="Observability + SRE Ops&#10;• Metrics/Logs/Traces&#10;• SLOs + alerting&#10;• Health-first rollouts"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="460" y="570" width="420" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_finops" value="FinOps (Kubecost)&#10;• Per-tenant showback&#10;• Egress + storage visibility&#10;• Rightsizing guardrails"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="900" y="570" width="340" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cap_dr" value="DR + Data Governance&#10;• PITR + backups to object storage&#10;• Quarterly game days&#10;• Rehydration via replay"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="1260" y="570" width="320" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- GCP cloud storage icon for DR -->
+        <mxCell id="gcp_storage" value="Cloud Storage"
+          style="dashed=0;connectable=0;html=1;fillColor=#5184F3;strokeColor=none;shape=mxgraph.gcp2.hexIcon;prIcon=cloud_storage;part=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=5;fontColor=#000000;fontSize=11;"
+          vertex="1" parent="1">
+          <mxGeometry x="1275" y="646" width="44" height="39" as="geometry"/>
+        </mxCell>
+
+        <!-- Platform Control Plane (one box) -->
+        <mxCell id="cap_platform" value="Platform Engineering (Control Plane)&#10;• Cluster API automation&#10;• Terraform/Terragrunt modules + states&#10;• Deployment rings + canaries&#10;• Policy-as-Code guardrails"
+          style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fontSize=13;strokeWidth=2;"
+          vertex="1" parent="1">
+          <mxGeometry x="20" y="720" width="860" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- Links from platform to capabilities -->
+        <mxCell id="p1" value="Provision + Upgrade"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_platform" target="cap_byoc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p2" value="Enforce Baseline"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_platform" target="cap_gitops">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="p3" value="Guardrails"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_platform" target="cap_security">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Governance links to DB/Stream -->
+        <mxCell id="g1" value="Policies"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_security" target="cap_db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="g2" value="Policies"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_security" target="cap_stream">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Observability/FinOps/DR links -->
+        <mxCell id="o1" value="Telemetry"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_observability" target="cap_db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="o2" value="Telemetry"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_observability" target="cap_stream">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="f1" value="Cost Attribution"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_finops" target="cap_byoc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="d1" value="Backups / PITR"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_dr" target="cap_db">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="d2" value="Retention / Replay"
+          style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;"
+          edge="1" parent="1" source="cap_dr" target="cap_stream">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
