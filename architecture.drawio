@@ -1,0 +1,313 @@
+<mxfile host="app.diagrams.net" modified="2026-02-02T00:00:00.000Z" agent="GPT" version="22.1.0" type="device">
+  <!-- Page 1: Global Traffic + Istio Flow -->
+  <diagram id="page-traffic" name="01 - Global Traffic + Istio">
+    <mxGraphModel dx="1300" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="t1" value="Global Traffic Routing + Istio Traffic Flow (Blue/Green + Canary)" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1200" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Global Edge / GSLB -->
+        <mxCell id="edgeBox" value="Global Edge (GSLB / Anycast / DNS)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="360" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Cloud-neutral client -->
+        <mxCell id="client" value="Clients / Channels&#10;(Mobile, Web, Core Integrations)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="170" width="360" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow: client -> edge -->
+        <mxCell id="e1" value="TLS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="client" target="edgeBox">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Multi-cloud region clusters (3 boxes) -->
+        <mxCell id="awsCloud" value="AWS Tenant Cluster (EKS)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="420" y="60" width="360" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="azCloud" value="Azure Tenant Cluster (AKS)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="800" y="60" width="360" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="gcpCloud" value="GCP Tenant Cluster (GKE)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="60" width="360" height="360" as="geometry"/>
+        </mxCell>
+
+        <!-- From Edge -> each cloud -->
+        <mxCell id="e2" value="Route (Latency / Geo / Policy)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="edgeBox" target="awsCloud">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="Route (Latency / Geo / Policy)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="edgeBox" target="azCloud">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="Route (Latency / Geo / Policy)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="edgeBox" target="gcpCloud">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Kubernetes icons inside AWS box -->
+        <mxCell id="awsIngress" value="Istio IngressGateway" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="120" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="k8sApiAws" value="" style="html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=api" vertex="1" parent="1">
+          <mxGeometry x="460" y="125" width="44" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="awsVS" value="VirtualService / DestinationRule&#10;Weighted Routing: v1 (90%) / v2 (10%)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="200" width="300" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="awsBlue" value="App Service (Blue / v1)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="290" width="145" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="awsGreen" value="App Service (Green / v2 Canary)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="605" y="290" width="145" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- AWS service icons (generic compute) -->
+        <mxCell id="awsCompute1" value="" style="outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;" vertex="1" parent="1">
+          <mxGeometry x="455" y="355" width="42" height="42" as="geometry"/>
+        </mxCell>
+        <mxCell id="awsCompute2" value="" style="outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=10;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;" vertex="1" parent="1">
+          <mxGeometry x="610" y="355" width="42" height="42" as="geometry"/>
+        </mxCell>
+
+        <!-- Flow inside AWS -->
+        <mxCell id="e5" value="mTLS" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="awsIngress" target="awsVS">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="90%" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="awsVS" target="awsBlue">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="10%" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="awsVS" target="awsGreen">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Data plane: CockroachDB + Redpanda (shown as platform services) -->
+        <mxCell id="awsData" value="Data Plane&#10;CockroachDB + Redpanda (per-tenant)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="450" y="420" width="300" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="SQL / Events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="awsBlue" target="awsData">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="SQL / Events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="awsGreen" target="awsData">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Azure icons (using built-in azure2 SVG images) -->
+        <mxCell id="azIngress" value="Istio IngressGateway" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="120" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="azIcon" value="" style="aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/general/All_Resources.svg;" vertex="1" parent="1">
+          <mxGeometry x="840" y="125" width="44" height="44" as="geometry"/>
+        </mxCell>
+        <mxCell id="azVS" value="VirtualService / DestinationRule&#10;Blue/Green + Canary" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="200" width="300" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="azApp" value="App Service Pods" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="290" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="azData" value="Data Plane&#10;CockroachDB + Redpanda" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="420" width="300" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="azE1" value="mTLS" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="azIngress" target="azVS">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="azE2" value="Route" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="azVS" target="azApp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="azE3" value="SQL / Events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="azApp" target="azData">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- GCP icons (using built-in gcp2 hexIcon) -->
+        <mxCell id="gcpIngress" value="Istio IngressGateway" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="120" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpInterconnect" value="Dedicated Interconnect (optional)" style="dashed=0;connectable=0;html=1;fillColor=#5184F3;strokeColor=none;shape=mxgraph.gcp2.hexIcon;prIcon=dedicated_interconnect;part=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=5;fontColor=#000000;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="185" width="44" height="39" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpVS" value="VirtualService / DestinationRule&#10;Blue/Green + Canary" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="240" width="300" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpApp" value="App Service Pods" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="330" width="300" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpData" value="Data Plane&#10;CockroachDB + Redpanda" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1210" y="420" width="300" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpE1" value="mTLS" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="gcpIngress" target="gcpVS">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpE2" value="Route" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="gcpVS" target="gcpApp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpE3" value="SQL / Events" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="gcpApp" target="gcpData">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 2: BYOC Tenant Isolation -->
+  <diagram id="page-byoc" name="02 - BYOC Tenant Isolation">
+    <mxGraphModel dx="1300" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="h1" value="Multi-Tenant BYOC: One Account/Subscription per Client (No Shared Runtime)" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1300" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Tenant A -->
+        <mxCell id="tenA" value="Tenant A Cloud Account / Subscription" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="500" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenACluster" value="Kubernetes Cluster (EKS/AKS/GKE or On-Prem K8s)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="440" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="k8sNodeA" value="" style="html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=node" vertex="1" parent="1">
+          <mxGeometry x="65" y="135" width="44" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenADB" value="CockroachDB (Dedicated per Tenant)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="210" width="215" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenAStream" value="Redpanda (Dedicated per Tenant)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="275" y="210" width="215" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenAGitOps" value="GitOps (ArgoCD/Flux)&#10;Drift Detection + Auto-Remediation" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="440" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Tenant B -->
+        <mxCell id="tenB" value="Tenant B Cloud Account / Subscription" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="60" width="500" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenBCluster" value="Kubernetes Cluster (EKS/AKS/GKE or On-Prem K8s)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="120" width="440" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="k8sNodeB" value="" style="html=1;dashed=0;whitespace=wrap;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon;prIcon=node" vertex="1" parent="1">
+          <mxGeometry x="605" y="135" width="44" height="42" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenBDB" value="CockroachDB (Dedicated per Tenant)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="210" width="215" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenBStream" value="Redpanda (Dedicated per Tenant)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="815" y="210" width="215" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="tenBGitOps" value="GitOps (ArgoCD/Flux)&#10;Drift Detection + Auto-Remediation" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="590" y="300" width="440" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Control plane automation -->
+        <mxCell id="platformCP" value="OpenCore Platform Control Plane&#10;Cluster API + Terraform/Terragrunt&#10;Deployment Rings + Policy-as-Code" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1100" y="90" width="480" height="220" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="awsIconCP" value="" style="outlineConnect=0;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;html=1;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="120" width="48" height="48" as="geometry"/>
+        </mxCell>
+
+        <!-- Links from CP to tenants -->
+        <mxCell id="cpE1" value="Provision/Upgrade&#10;(Ring 0→1→2)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="platformCP" target="tenA">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cpE2" value="Provision/Upgrade&#10;(Ring 0→1→2)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="platformCP" target="tenB">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Explicit "No cross-tenant data paths" -->
+        <mxCell id="noCross" value="No Cross-Tenant Data Paths&#10;(Dedicated DB + Dedicated Streaming)" style="text;html=1;fontSize=14;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="440" width="800" height="30" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 3: DR + PITR + Streaming Rehydration -->
+  <diagram id="page-dr" name="03 - DR + PITR">
+    <mxGraphModel dx="1300" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="drTitle" value="Disaster Recovery: CockroachDB PITR + Backups + Redpanda Rehydration" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="20" y="10" width="1400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Primary region -->
+        <mxCell id="prim" value="Primary Region / Cloud" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="740" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="primDb" value="CockroachDB (Primary)&#10;Continuous PITR (WAL shipping)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="340" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="primRp" value="Redpanda (Primary)&#10;RF=3/5, Raft quorum" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="410" y="120" width="320" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Backup target (object storage) - show as GCP Cloud Storage hex icon -->
+        <mxCell id="objStore" value="Cross-Region Object Storage&#10;(Blast-radius isolated account/project)" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="50" y="230" width="680" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="gcpStorageIcon" value="Cloud&#10;Storage" style="dashed=0;connectable=0;html=1;fillColor=#5184F3;strokeColor=none;shape=mxgraph.gcp2.hexIcon;prIcon=cloud_storage;part=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;spacingLeft=5;fontColor=#000000;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="65" y="255" width="44" height="39" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges to storage -->
+        <mxCell id="b1" value="Hourly snapshots + incrementals" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="primDb" target="objStore">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="b2" value="Topic retention aligned to replay window" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="primRp" target="objStore">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Secondary region -->
+        <mxCell id="sec" value="Secondary Region / Cloud (Warm Standby or Recovery)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;spacing=10;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="800" y="60" width="760" height="360" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="secDb" value="CockroachDB (Restore Target)&#10;Restore to T-ε via PITR" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="120" width="350" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="secRp" value="Redpanda (Rehydration)&#10;Consumer replay validation" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="120" width="330" height="80" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="drGameDay" value="Quarterly DR Game Days&#10;Simulate provider outage + corruption&#10;RTO/RPO measured + audited" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="830" y="240" width="700" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Restore edges from object storage -->
+        <mxCell id="r1" value="Restore backups + replay WAL" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="objStore" target="secDb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r2" value="Rehydrate + validate by replay" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="objStore" target="secRp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
