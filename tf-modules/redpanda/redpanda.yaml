@@ -1,0 +1,30 @@
+# values.yaml
+statefulset:
+  replicas: 3 # Minimum for quorum
+  budget:
+    maxUnavailable: 1 # Ensures 5-nines during rolling upgrades
+
+# Locality-aware replication for Multi-Cloud
+# Map this to the specific cloud/region in your FDE engagement
+config:
+  cluster:
+    replication_factor: 3
+    idempotency_enabled: true # Essential for banking integrity
+
+# Resource Tuning (No JVM - purely hardware-focused)
+resources:
+  cpu:
+    cores: 4
+  memory:
+    container:
+      max: 16Gi
+
+# Storage for high-throughput ledger events
+storage:
+  persistentVolume:
+    size: 100Gi
+    storageClass: "premium-ssd" # Use io2 for AWS or UltraDisk for Azure
+
+# Redpanda Console for AI-first observability
+console:
+  enabled: true

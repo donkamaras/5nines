@@ -1,0 +1,36 @@
+apiVersion: cluster.redpanda.com/v1alpha2
+kind: Redpanda
+metadata:
+  name: opencore-thin-ledger
+  namespace: banking-prod
+spec:
+  clusterSpec:
+    image:
+      repository: docker.redpanda.com/redpandadata/redpanda
+      tag: v25.x.x
+    
+    # Resiliency Strategy: 3 nodes across 3 availability zones
+    statefulset:
+      replicas: 3
+    
+    # Hardware-level tuning (XFS & NVMe recommended)
+    storage:
+      persistentVolume:
+        enabled: true
+        size: 100Gi
+        storageClass: "local-nvme-striped" # High-performance SSD
+    
+    # Banking-grade Security
+    auth:
+      sasl:
+        enabled: true
+    tls:
+      enabled: true
+
+    # Specific Redpanda performance flags (JVM-free tuning)
+    resources:
+      cpu:
+        cores: 4
+      memory:
+        container:
+          max: 16Gi

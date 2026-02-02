@@ -1,0 +1,56 @@
+apiVersion: crdb.cockroachlabs.com/v1alpha1
+kind: CrdbCluster
+metadata:
+  name: cockroachdb
+  namespace: cockroachdb-cluster
+spec:
+  # 5 Nines requirement: Minimum 3 nodes, but 6+ recommended for multi-zone resilience
+  nodes: 6
+  image:
+    name: cockroachdb/cockroach:v23.1.0 # Use enterprise version for production features
+  
+  # Resource requests/limits: Crucial for 5 nines to avoid OOM kills
+  resources:
+    requests:
+      cpu: "4"
+      memory: "16Gi"
+    limits:
+      cpu: "8"
+      memory: "32Gi"
+
+  # Storage configuration - Adjust 'storageClassName' per provider
+  dataStore:
+    pvc:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi
+        # PROVIDER SPECIFIC STORAGE CLASSES:
+        # EKS: gp3 | AKS: managed-csi-premium | GKE: premium-rwo | On-Prem: local-path
+        storageClassName: gp3 
+
+  # High Availability: Distribute pods across failure domains (Zones)
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: "topology.kubernetes.io/zone"
+      whenUnsatisfiable: DoNotSchedule # Strict HA: will not schedule 2 pods in 1 zone if it breaks balance
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: cockroachdb
+
+  # Database configuration
+  cockroachDB:
+    # Set to 'true' for production
+    secure: true
+    # Custom cache and memory settings (usually 25% of pod memory)
+    cache: "4Gi"
+    maxSQLMemory: "4Gi"
+
+    spec:
+  tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "cockroachdb"
+    effect: "NoSchedule"
