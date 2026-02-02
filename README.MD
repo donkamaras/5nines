@@ -13,21 +13,38 @@ The architecture follows the **RFC: Production & Operationalization Plan (Feb 1,
 
 ---
 
-## 📂 Repository Structure
+# OpenCore Infrastructure Repository
 
-├── .github/workflows/       # CI/CD Pipelines (OPA checks & Rings)
+This repository defines the **foundational infrastructure, policy guardrails, and tenant deployments** for OpenCore environments using an opinionated, ring-based rollout model.
+
+It is designed to support:
+- Safe progressive delivery (canary → early → production)
+- Strong policy enforcement via OPA/Rego
+- Reusable “golden image” infrastructure modules
+- Clear separation of **logic (modules)** and **data (live tenants)**
+
+---
+
+## Repository Structure
+
+```text
+├── .github/
+│   └── workflows/           # CI/CD Pipelines (OPA checks & ring enforcement)
 ├── modules/                 # "Golden Image" Modules (The Logic)
-│   ├── networking/          # VPC/VNet & Security Groups
-│   ├── kubernetes/          # Cluster API / Managed K8s logic
-│   ├── database/            # CockroachDB Operator & CRDs
-│   └── streaming/           # Redpanda Operator & Raft config
+│   ├── networking/          # VPC/VNet, subnets, security groups
+│   ├── kubernetes/          # Cluster API / Managed Kubernetes logic
+│   ├── database/            # CockroachDB operator & CRDs
+│   └── streaming/           # Redpanda operator & Raft configuration
 ├── live/                    # Tenant Implementations (The Data)
-│   ├── ring-0-canary/       # Internal OpenCore Environments
-│   ├── ring-1-early/        # Early Adopter Clients
-│   └── ring-2-prod/         # High-Stakes Production Ledgers
-├── scripts/                 # Operational Tooling
-│   └── deploy_tenant.sh     # Main Deployment Wrapper
-└── policies/                # OPA/Rego Policy-as-Code Guardrails
+│   ├── ring-0-canary/       # Internal OpenCore environments
+│   ├── ring-1-early/        # Early adopter clients
+│   └── ring-2-prod/         # High-stakes production ledgers
+├── scripts/                 # Operational tooling
+│   └── deploy_tenant.sh     # Main deployment wrapper
+└── policies/                # OPA/Rego policy-as-code guardrails
+
+```
+
 # Thin Ledger Deployment & Operations Guide
 
 ## 🚀 Deployment Workflow
