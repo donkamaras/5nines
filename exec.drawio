@@ -1,0 +1,76 @@
+<mxfile host="65bd71144e">
+    <diagram id="page-30000ft" name="00 - 30,000 ft Platform Overview">
+        <mxGraphModel dx="1600" dy="950" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="ttl" value="Platform 30,000-ft View (BYOC Multi-Tenant, GitOps, Istio, DR, FinOps)" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="10" width="1500" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="clients" value="Clients / Channels&#10;• Mobile / Web&#10;• Partner APIs&#10;• Bank Integrations" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="90" width="280" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge" value="Global Edge + Routing&#10;• DNS / GSLB&#10;• WAF / DDoS&#10;• Geo/Latency Policy" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="90" width="320" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_clients_edge" value="TLS" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="clients" target="edge">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="pcp" value="Platform Control Plane&#10;• Cluster API (cluster lifecycle)&#10;• Terraform/Terragrunt (golden modules)&#10;• Policy-as-Code (OPA/Sentinel)&#10;• Deployment Rings (0→1→2)&#10;• Secrets + PKI + Key mgmt integration" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="240" width="630" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="gitops" value="GitOps (ArgoCD / Flux)&#10;• Drift detection&#10;• Auto-remediation&#10;• Controlled rollouts" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="470" width="300" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="obs" value="Observability&#10;• Metrics / Logs / Traces&#10;• SLOs + Alerting&#10;• Dashboards + On-call" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="470" width="300" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="finops" value="FinOps (Kubecost)&#10;• Per-tenant cost allocation&#10;• CPU/Memory/Storage breakdown&#10;• Showback/chargeback" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="20" y="590" width="300" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="backup" value="Backups + PITR Archive&#10;• Object Storage (S3/Blob/GCS/MinIO)&#10;• Cross-region + separate account&#10;• Quarterly DR game days" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="590" width="300" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_pcp_gitops" value="Desired State" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="pcp" target="gitops">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_pcp_obs" value="Telemetry Standards" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="pcp" target="obs">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_obs_fin" value="Cost Signals" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="obs" target="finops">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="byoc" value="BYOC Tenants (Isolated Accounts/Subscriptions/Projects)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=14;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=none;dashed=1;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="60" width="880" height="760" as="geometry"/>
+                </mxCell>
+                <mxCell id="aws" value="Tenant A (AWS) - EKS" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="110" width="400" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="azure" value="Tenant B (Azure) - AKS" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+                    <mxGeometry x="1160" y="110" width="400" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="gcp" value="Tenant C (GCP) - GKE" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+                    <mxGeometry x="730" y="340" width="400" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="onprem" value="Tenant D (On-Prem) - Kubernetes" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;strokeWidth=2;fillColor=#f5f5f5;" vertex="1" parent="1">
+                    <mxGeometry x="1160" y="340" width="400" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="aws_istio" value="Istio Ingress + Mesh" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#dae8fc;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="150" width="180" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="aws_app" value="App Services" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#d5e8d4;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="150" width="170" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="aws_data" value="Data Plane&#10;CockroachDB + Redpanda" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;strokeWidth=2;fillColor=#ffe6cc;" vertex="1" parent="1">
+                    <mxGeometry x="750" y="220" width="360" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_edge_aws" value="HTTP/gRPC" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="edge" target="aws_istio">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e_gitops_byoc" value="Continuous Reconcile" style="dashed=1;edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;strokeWidth=2;curved=1;" edge="1" parent="1" source="gitops" target="byoc">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
